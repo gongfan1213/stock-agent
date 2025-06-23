@@ -1,5 +1,12 @@
 # stock-agent
 
+![image](https://github.com/user-attachments/assets/25912c94-f7a4-4d36-9cbf-0994b6136f58)
+
+
+
+![image](https://github.com/user-attachments/assets/70165fed-b6bd-4eba-a04d-724b96bff69b)
+
+
 ![image](https://github.com/user-attachments/assets/1652ee65-4639-47d7-ad03-1aea196af4c1)
 
 
