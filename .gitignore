@@ -1,0 +1,51 @@
+# Node.js 依赖
+node_modules/
+frontend/node_modules/
+
+# 前端打包产物
+frontend/build/
+frontend/dist/
+
+# Python 依赖
+__pycache__/
+tradingagents/__pycache__/
+tradingagents/agents/__pycache__/
+tradingagents/dataflows/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Python 虚拟环境
+env/
+venv/
+
+# VSCode 配置
+.vscode/
+
+# Mac 系统文件
+.DS_Store
+
+# 日志文件
+*.log
+china_server.log
+
+# 环境变量
+.env
+.env.*
+frontend/.env
+
+# 其他常见临时文件
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Jupyter Notebook 检查点
+.ipynb_checkpoints/
+
+# 其他你不想提交的文件/目录可继续添加
+*.csv
+src/
+eval_results/
+eval_data/
+*.egg-info/

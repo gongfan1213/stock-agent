@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket 连接测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .log {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .connect { background: #4CAF50; color: white; }
+        .disconnect { background: #f44336; color: white; }
+        .test { background: #2196F3; color: white; }
+    </style>
+</head>
+<body>
+    <h1>WebSocket 连接测试</h1>
+    
+    <div>
+        <button class="connect" onclick="connectWebSocket()">连接 WebSocket</button>
+        <button class="disconnect" onclick="disconnectWebSocket()">断开连接</button>
+        <button class="test" onclick="testMessage()">发送测试消息</button>
+    </div>
+    
+    <div>
+        <h3>连接状态: <span id="status">未连接</span></h3>
+        <h3>WebSocket URL: <span id="url">ws://localhost:8000/ws</span></h3>
+    </div>
+    
+    <div class="log" id="log"></div>
+
+    <script>
+        let ws = null;
+        const logElement = document.getElementById('log');
+        const statusElement = document.getElementById('status');
+        const urlElement = document.getElementById('url');
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logElement.appendChild(logEntry);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        function connectWebSocket() {
+            const wsUrl = 'ws://localhost:8000/ws';
+            urlElement.textContent = wsUrl;
+            
+            try {
+                log('正在连接 WebSocket...', 'info');
+                ws = new WebSocket(wsUrl);
+
+                ws.onopen = function(event) {
+                    log('WebSocket 连接已建立', 'success');
+                    statusElement.textContent = '已连接';
+                    statusElement.style.color = 'green';
+                };
+
+                ws.onmessage = function(event) {
+                    log(`收到消息: ${event.data}`, 'info');
+                };
+
+                ws.onclose = function(event) {
+                    log(`WebSocket 连接已关闭 (代码: ${event.code}, 原因: ${event.reason})`, 'error');
+                    statusElement.textContent = '已断开';
+                    statusElement.style.color = 'red';
+                    ws = null;
+                };
+
+                ws.onerror = function(error) {
+                    log(`WebSocket 错误: ${error}`, 'error');
+                    statusElement.textContent = '连接错误';
+                    statusElement.style.color = 'red';
+                };
+
+            } catch (error) {
+                log(`创建 WebSocket 连接失败: ${error}`, 'error');
+            }
+        }
+
+        function disconnectWebSocket() {
+            if (ws) {
+                ws.close();
+                log('手动断开 WebSocket 连接', 'info');
+            } else {
+                log('WebSocket 未连接', 'error');
+            }
+        }
+
+        function testMessage() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const testMessage = {
+                    type: 'test',
+                    message: 'Hello from client',
+                    timestamp: new Date().toISOString()
+                };
+                ws.send(JSON.stringify(testMessage));
+                log(`发送测试消息: ${JSON.stringify(testMessage)}`, 'info');
+            } else {
+                log('WebSocket 未连接，无法发送消息', 'error');
+            }
+        }
+
+        // 页面加载时自动连接
+        window.onload = function() {
+            log('页面加载完成，准备测试 WebSocket 连接', 'info');
+        };
+    </script>
+</body>
+</html> 
