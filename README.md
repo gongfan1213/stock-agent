@@ -1,4 +1,4 @@
-# stock-agent
+# stock-agent基于13个智能体的Langgraph中国A股系统
 
 
 ![image](https://github.com/user-attachments/assets/c2149470-e6ed-42f9-b430-2f51eb02b707)
